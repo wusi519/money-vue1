@@ -1,7 +1,7 @@
 const localStorageKeyName = 'tagList';
 type Tag={
   id:string;
-  name:string
+  name:string;
 }
 type TagListModel = {
   data: Tag[]
@@ -12,8 +12,7 @@ type TagListModel = {
 const tagListModel: TagListModel = {
   data: [],
   fetch() {
-    this.data = JSON.parse(window.localStorage.getItem(localStorageKeyName) || '[]');
-    return this.data;
+    return  JSON.parse(window.localStorage.getItem(localStorageKeyName) || '[]')
   },
   save(){
     window.localStorage.setItem(localStorageKeyName,JSON.stringify(this.data))

@@ -16,20 +16,15 @@
   import Types from '@/components/Money/Types.vue';
   import NumberPod from '@/components/Money/NumberPad.vue';
   import {Component, Watch} from 'vue-property-decorator';
-  import model from '@/model';
+  import recordListModel from '@/models/recordListModel';
   import tagListModel from '@/models/tagListModel';
   import FormItem from '@/components/Money/FormItem.vue';
 
-  const recordList = model.fetch();
-  const tagList = tagListModel.fetch;
+  const recordList = recordListModel.fetch();
+  const tagList = tagListModel.fetch();
 
   const version = window.localStorage.getItem('version' || '0');
 
-  if (version === '0.0.1') {
-    recordList.forEach(record => {record.createdAt = new Date(0);});
-    window.localStorage.setItem('recordList', JSON.stringify(recordList));
-  }
-  window.localStorage.setItem('version', '0.0.1');
   type Record = {
     tags: string[]
     notes: string
@@ -37,6 +32,12 @@
     amount: number
     createAt?: Date
   }
+  if (version === '0.0.1') {
+    recordList.forEach(record => {record.createdAt = new Date(0);});
+    window.localStorage.setItem('recordList', JSON.stringify(recordList));
+  }
+  window.localStorage.setItem('version', '0.0.1');
+
   @Component({
     components: {FormItem, NumberPod, Types, Tags, Notes, Layout},
   })
@@ -52,16 +53,15 @@
     }
 
 
-
-    saveRecord():void {
-      const deepCloneRecord = model.deepClone(this.record);
+    saveRecord(): void {
+      const deepCloneRecord = recordListModel.deepClone(this.record);
       deepCloneRecord.createdAt = new Date();
       this.recordList.push(deepCloneRecord);
     }
 
 
     @Watch('recordList')
-    onRecordListChanged() :void {
+    onRecordListChanged(): void {
       localStorage.setItem('recordList', JSON.stringify(this.recordList));
     }
 
