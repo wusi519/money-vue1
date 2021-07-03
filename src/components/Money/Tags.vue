@@ -1,8 +1,8 @@
 <template>
 	<div class="tags">
 		<ul class="current">
-			<li v-for="tag in dataSource" :key="tag" @click="toggle(tag)" :class="{selected:selectedTags.indexOf(tag)>=0}"
-			>{{tag}}
+			<li v-for="tag in dataSource" :key="tag.id" @click="toggle(tag)" :class="{selected:selectedTags.indexOf(tag)>=0}"
+			>{{tag.name}}
 			</li>
 		</ul>
 		<div class="createNewTag">
