@@ -1,0 +1,43 @@
+@import "Helper";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box
+}
+
+#app {
+  line-height: 1.5;
+  color: #333;
+  font-family: $font-hei;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+}
+
+body {
+  line-height: 1.5;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+
+ul, ol {
+  list-style: none;
+}
+button,input{
+  font:inherit;
+}
+:focus{
+  outline: none;
+}
