@@ -28,8 +28,9 @@
   export default class EditLabels extends Vue {
     created() {
       const id = this.$route.params.id;
+      tagListModel.fetch();
       const tags = tagListModel.data;
-      const tag = tags.filter(item => item.id === id)[0];
+      const tag = tags.filter(t=> t.id === id)[0];
       if (!tag) {
         this.$router.replace('/404');
       } else {
