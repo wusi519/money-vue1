@@ -5,7 +5,7 @@ type Tag={
 }
 type TagListModel = {
   data: Tag[]
-  fetch: () => string[]
+  fetch: () => Tag[]
   save: () => void
   create: (name: string | null) => 'success' | 'duplicated' | 'null'
 }
