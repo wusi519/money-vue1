@@ -2,7 +2,7 @@
 	<div>
 		<label class="notes">
 			<span class="name">{{this.fieldName}}</span>
-			<input type="text" @input="onInput" :placeholder="this.placeHolder">
+			<input type="text"   :placeholder="this.placeHolder">
 		</label>
 	</div>
 </template>
@@ -16,13 +16,14 @@
     @Prop({required: true}) readonly fieldName!: string;
     @Prop() readonly placeHolder?: string;
     @Prop() readonly value!: string;
+    // currentValue: string | undefined;
 
 
-    onInput(event: KeyboardEvent): void {
-      const input = event.target as HTMLInputElement;
-      this.currentValue = input.value;
-      this.$emit('update:value', this.currentValue);
-    }
+    // onInput(event: KeyboardEvent): void {
+    //   const input = event.target as HTMLInputElement;
+    //   this.currentValue = input.value;
+    //   this.$emit('update:value', this.currentValue);
+    // }
   }
 </script>
 
