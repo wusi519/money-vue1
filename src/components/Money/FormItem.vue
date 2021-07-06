@@ -2,7 +2,7 @@
 	<div>
 		<label class="notes">
 			<span class="name">{{this.fieldName}}</span>
-			<input type="text"   :placeholder="this.placeHolder">
+			<input type="text" :value="value" @input="onInputValue($event.target.value)" :placeholder="this.placeHolder">
 		</label>
 	</div>
 </template>
@@ -15,15 +15,13 @@
   export default class FormItem extends Vue {
     @Prop({required: true}) readonly fieldName!: string;
     @Prop() readonly placeHolder?: string;
-    @Prop() readonly value!: string;
-    // currentValue: string | undefined;
+    @Prop({default: ''}) readonly value!: string;
 
 
-    // onInput(event: KeyboardEvent): void {
-    //   const input = event.target as HTMLInputElement;
-    //   this.currentValue = input.value;
-    //   this.$emit('update:value', this.currentValue);
-    // }
+
+    onInputValue(value: string): void {
+      this.$emit('update:value', value);
+    }
   }
 </script>
 

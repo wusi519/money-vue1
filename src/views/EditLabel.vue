@@ -2,12 +2,12 @@
 	<div class="layout-wrapper">
 		<Layout>
 			<div class="navBar">
-				<Icon class="leftIcon" name="left"/>
+				<Icon @click="fallBack" class="leftIcon" name="left"/>
 				<span class="title">编辑标签</span>
 				<span class="rightSpan"></span>
 			</div>
 			<div class="form-wrapper">
-				<FormItem :value="tag.name" @update:value="updateTag" field-name="标签名" place-holder="请输入标签名"/>
+				<FormItem :value="tag.name" @update:value="update" field-name="标签名" place-holder="请输入标签名"/>
 			</div>
 			<div class="button-wrapper">
 				<Button>删除标签</Button>
@@ -35,18 +35,26 @@
       tagListModel.fetch();
       const tags = tagListModel.data;
       const tag = tags.filter(t => t.id === id)[0];
-      if (!tag) {
-        this.$router.replace('/404');
-      } else {
+      if (tag) {
         this.tag = tag;
+      } else {
+        this.$router.replace('/404');
       }
     }
-
-    updateTag(name: string) {
-      if(this.tag){
+    update(name: string): void {
+      if (this.tag) {
         tagListModel.update(this.tag.id, name);
       }
     }
+    remove(){
+      const message=window.confirm('确定要删除此标签吗?')
+			if(this.tag&&message&&tagListModel.remove(this.tag.id)){this.$router.replace('/label')
+			}else{window.alert('删除失败')
+			}
+		}
+		fallBack(){
+      this.$router.back()
+		}
   }
 </script>
 
