@@ -44,7 +44,7 @@
     components: {FormItem, NumberPod, Types, Tags, Notes, Layout},
   })
   export default class Money extends Vue {
-    tags = tagList;
+    tags = window.tagList;
     recordList: Record[] = JSON.parse(window.localStorage.getItem('recordList') || '[]');
     record: Record = {
       tags: [], notes: '', type: '-', amount: 0
