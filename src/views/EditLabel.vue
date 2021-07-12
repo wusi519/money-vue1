@@ -31,30 +31,29 @@
     tag?: { id: string, name: string } = undefined;
 
     created() {
-      const id = this.$route.params.id;
-      tagListModel.fetch();
-      const tags = tagListModel.data;
-      const tag = tags.filter(t => t.id === id)[0];
-      if (tag) {
-        this.tag = tag;
-      } else {
+      this.tag = window.findTag(this.$route.params.id);
+      if (!this.tag) {
         this.$router.replace('/404');
       }
     }
+
     update(name: string): void {
       if (this.tag) {
-        tagListModel.update(this.tag.id, name);
+        window.updateTag(this.tag.id, name);
       }
     }
-    remove(){
-      const message=window.confirm('确定要删除此标签吗?')
-			if(this.tag&&message&&tagListModel.remove(this.tag.id)){this.$router.replace('/label')
-			}else{window.alert('删除失败')
-			}
-		}
-		fallBack(){
-      this.$router.back()
-		}
+
+    remove() {
+      if (this.tag && window.removeTag(this.tag.id)) {
+        this.$router.replace('/label');
+      } else {
+        window.alert('删除失败');
+      }
+    }
+
+    fallBack() {
+      this.$router.back();
+    }
   }
 </script>
 

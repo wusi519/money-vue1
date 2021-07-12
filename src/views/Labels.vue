@@ -1,9 +1,9 @@
 <template>
 	<Layout>
-		<div class="tags" >
+		<div class="tags">
 			<router-link v-for="tag in tags" :key="tag.id" class="tag" :to="`/labels/edit/${tag.id}`">
-					<span>{{tag.name}}</span>
-					<Icon name="right"/>
+				<span>{{tag.name}}</span>
+				<Icon name="right"/>
 			</router-link>
 		</div>
 		<div class="createTag-wrapper">
@@ -23,9 +23,9 @@
     components: {Button}
   })
   export default class Label extends Vue {
-    tags = window.tagList
+    tags = window.tagList;
 
-    createTag() {
+    createTag(): void {
       const name = window.prompt('请输入标签名');
       const message = tagListModel.create(name);
       if (message !== 'duplicated') {
