@@ -8,7 +8,7 @@ const recordListModel = {
   },
   fetch() {
     return JSON.parse(window.localStorage.getItem(localStorageKeyName) || '[]') as RecordItem[];
-  },
+    },
   save(data: RecordItem[]): void {
     window.localStorage.setItem(localStorageKeyName, JSON.stringify(data));
   },
@@ -18,4 +18,4 @@ const recordListModel = {
     this.data.push(deepCloneRecord);
   },
 };
-export default recordListModel;
+export {recordListModel};

@@ -19,7 +19,7 @@
   export default class Types extends Vue {
     @Prop() readonly value!: string;
 
-    selectType(type: string) {
+    selectType(type: string): void {
       if (type !== '-' && type !== '+') {
         throw new Error('type is unknown');
       }

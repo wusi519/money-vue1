@@ -1,5 +1,6 @@
 <template>
 	<Layout class-prefix="xxx">
+		{{recordList}}
 		<Types :value.sync="record.type"/>
 		<Tags :data-source.sync="tags" @update:value="onUpdateTags"/>
 		<div class="notes-wrapper">
@@ -18,7 +19,7 @@
   import Types from '@/components/Money/Types.vue';
   import NumberPod from '@/components/Money/NumberPad.vue';
   import {Component, Watch} from 'vue-property-decorator';
-  import recordListModel from '@/models/recordListModel';
+  import {recordListModel} from '@/models/recordListModel';
   import tagListModel from '@/models/tagListModel';
   import FormItem from '@/components/Money/FormItem.vue';
 
@@ -64,7 +65,7 @@
 
     @Watch('recordList')
     onRecordListChanged(): void {
-      localStorage.setItem('recordList', JSON.stringify(this.recordList));
+      recordListModel.save(this.recordList);
     }
 
   }
