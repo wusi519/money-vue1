@@ -92,7 +92,7 @@
 				background: transparent;
 				border: none;
 				color: #999;
-				border-bottom: 1px solid black;
+				border-bottom: 1px solid #999;
 			}
 		}
 

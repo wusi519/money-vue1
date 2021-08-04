@@ -10,7 +10,7 @@
 				<FormItem :value="tag.name" @update:value="update" field-name="标签名" place-holder="请输入标签名"/>
 			</div>
 			<div class="button-wrapper">
-				<Button>删除标签</Button>
+				<Button @click="remove">删除标签</Button>
 			</div>
 		</Layout>
 	</div>
@@ -34,21 +34,21 @@
       tagListModel.fetch();
       const tags = tagListModel.data;
       const tag = tags.filter(t => t.id === id)[0];
-      if (!this.tag) {
-        this.$router.replace('/404');
+      if (tag) {
+        this.tag = tag;
       } else {
-        console.log(tag);
+        this.$router.replace('/404');
       }
     }
 
     update(name: string): void {
       if (this.tag) {
-        window.updateTag(this.tag.id, name);
+        tagListModel.update(this.tag.id, name);
       }
     }
 
     remove() {
-      if (this.tag && window.removeTag(this.tag.id)) {
+      if (this.tag && tagListModel.remove(this.tag.id)) {
         this.$router.replace('/label');
       } else {
         window.alert('删除失败');
