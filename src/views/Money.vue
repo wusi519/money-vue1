@@ -54,9 +54,7 @@
       this.record.tags = value;
     }
     saveRecord(): void {
-      const deepCloneRecord = recordListModel.deepClone(this.record);
-      deepCloneRecord.createdAt = new Date();
-      this.recordList.push(deepCloneRecord);
+      recordListModel.create(this.record)
     }
 
     @Watch('recordList')

@@ -49,7 +49,7 @@
 
     remove() {
       if (this.tag && tagListModel.remove(this.tag.id)) {
-        this.$router.replace('/label');
+        this.$router.back();
       } else {
         window.alert('删除失败');
       }
