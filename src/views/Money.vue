@@ -44,7 +44,7 @@
     components: {FormItem, NumberPod, Types, Tags, Notes, Layout},
   })
   export default class Money extends Vue {
-    tags = window.tagList;
+    tags = tagList
     recordList: Record[] = JSON.parse(window.localStorage.getItem('recordList') || '[]');
     record: Record = {
       tags: [], notes: '', type: '-', amount: 0
@@ -53,14 +53,11 @@
     onUpdateTags(value: string[]): void {
       this.record.tags = value;
     }
-
-
     saveRecord(): void {
       const deepCloneRecord = recordListModel.deepClone(this.record);
       deepCloneRecord.createdAt = new Date();
       this.recordList.push(deepCloneRecord);
     }
-
 
     @Watch('recordList')
     onRecordListChanged(): void {
