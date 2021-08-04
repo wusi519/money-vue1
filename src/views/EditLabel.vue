@@ -23,7 +23,6 @@
   import FormItem from '@/components/Money/FormItem.vue';
   import Button from '@/components/Button.vue';
 
-  tagListModel.fetch;
   @Component({
     components: {Button, FormItem}
   })
@@ -31,9 +30,14 @@
     tag?: { id: string, name: string } = undefined;
 
     created() {
-      this.tag = window.findTag(this.$route.params.id);
+      const id = this.$route.params.id;
+      tagListModel.fetch();
+      const tags = tagListModel.data;
+      const tag = tags.filter(t => t.id === id)[0];
       if (!this.tag) {
         this.$router.replace('/404');
+      } else {
+        console.log(tag);
       }
     }
 
