@@ -30,6 +30,7 @@
   export default class EditLabels extends Vue {
     tag?: { id: string, name: string } = undefined;
 
+
     created() {
       this.tag = store.findTag(this.$route.params.id)
       if (!this.tag) {

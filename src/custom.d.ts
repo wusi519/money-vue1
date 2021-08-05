@@ -1,3 +1,4 @@
+
 type RecordItem = {
   tags: string[];
   notes: string;
@@ -9,14 +10,7 @@ type Tag = {
   id: string;
   name: string;
 }
-type TagListModel = {
-  data: Tag[];
-  fetch: () => Tag[];
-  save: () => void;
-  update: (id: string, name: string) => 'success' | 'not found' | 'duplicated'
-  create: (name: string | null) => 'success' | 'duplicated' | 'null'
-  remove: (id: string) => boolean;
-}
+
 
 
 interface Window {
