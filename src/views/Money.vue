@@ -18,8 +18,7 @@
   import NumberPod from '@/components/Money/NumberPad.vue';
   import {Component} from 'vue-property-decorator';
   import FormItem from '@/components/Money/FormItem.vue';
-  import store from '@/store/index2';
-
+  import store from '@/store/index';
 
   type RecordItem = {
     tags: string[];
@@ -32,16 +31,21 @@
     components: {FormItem, NumberPod, Types, Tags, Layout},
     computed: {
       recordList() {
-        return store.recordList;
-      }
+        return this.$store.state.recordList;
+      },
     },
   })
   export default class Money extends Vue {
     record: RecordItem = {
       tags: [], notes: '', type: '-', amount: 0
     };
+
+    created() {
+      this.$store.commit('fetchRecords');
+    }
+
     saveRecord(): void {
-      store.createRecord(this.record);
+      this.$store.commit('createRecord', this.record);
     }
   }
 </script>
