@@ -46,7 +46,6 @@
         return;
       }
       this.output += input;
-      console.log(this.output);
     }
 
     deleteNumber() {
