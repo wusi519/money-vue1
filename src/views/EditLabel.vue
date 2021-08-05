@@ -1,6 +1,5 @@
 <template>
 	<div class="layout-wrapper">
-		{{tag}}
 		<Layout>
 			<div class="navBar">
 				<Icon @click="fallBack" class="leftIcon" name="left"/>
@@ -24,15 +23,15 @@
   import Button from '@/components/Button.vue';
 
   @Component({
-    components: {Button, FormItem}
+    components: {Button, FormItem},
   })
   export default class EditLabels extends Vue {
-    tag?: { id: string, name: string } = undefined;
-
-
+    get tag() {
+      return this.$store.state.currentTag;
+    }
     created() {
-      //TODO
-      this.tag = store.findTag(this.$route.params.id)
+      const id = this.$route.params.id;
+      this.$store.commit('setCurrentTag',id);
       if (!this.tag) {
         this.$router.replace('/404');
       }
@@ -46,14 +45,14 @@
     }
 
     remove() {
-      if(this.tag){
+      if (this.tag) {
         //TODO
-        if(store.removeTag(this.tag.id)){
-          this.$router.back()
-				}
-			}else{
-        window.alert('删除失败')
-			}
+        if (store.removeTag(this.tag.id)) {
+          this.$router.back();
+        }
+      } else {
+        window.alert('删除失败');
+      }
 
     }
 

@@ -4,14 +4,23 @@ import deepClone from '@/lib/deepClone';
 import createId from '@/lib/createId';
 
 Vue.use(Vuex);
+type RootState = {
+  recordList: RecordItem[],
+  tagList: Tag[],
+  currentTag?: Tag
+}
 const localStorageRecordKeyName = 'recordList';
 const localStorageTagKeyName = 'tagList';
 const store = new Vuex.Store({
   state: {
-    recordList: [] as RecordItem[],
-    tagList: [] as Tag[],
-  },
+    recordList: [],
+    tagList: [],
+    currentTag: undefined
+  } as RootState,
   mutations: {
+    setCurrentTag(state, id: string) {
+      state.currentTag = state.tagList.filter(t => t.id === id)[0];
+    },
     fetchRecords(state) {
       state.recordList = JSON.parse(window.localStorage.getItem(localStorageRecordKeyName) || '[]') as RecordItem[];
     },
@@ -26,22 +35,19 @@ const store = new Vuex.Store({
         JSON.stringify(state.recordList));
     },
     fetchTags(state) {
-      return state.tagList = JSON.parse(window.localStorage.getItem(localStorageTagKeyName) || '[]');
+      state.tagList = JSON.parse(window.localStorage.getItem(localStorageTagKeyName) || '[]');
     },
-    createTag(state,name: string) {
+    createTag(state, name: string) {
       const id = createId().toString();
       const names = state.tagList.map(item => item.name);
       if (name && names.indexOf(name) >= 0) {
         window.alert('标签名重复');
-        return 'duplicated';
       } else if (name === '' || name === null) {
         window.alert('标签名不能为空');
-        return 'null';
       } else {
         state.tagList.push({id, name: name});
         store.commit('saveTags');
-        window.alert('添加成功')
-        return 'success';
+        window.alert('添加成功');
       }
     },
     saveTags(state) {
