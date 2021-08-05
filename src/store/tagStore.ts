@@ -1,14 +1,14 @@
 import createId from '@/lib/createId';
 
-const localStorageKeyName = 'tagList';
+const localStorageTagKeyName = 'tagList';
 const tagStore = {
   tagList: [] as Tag[],
   fetchTags() {
-    this.tagList = JSON.parse(window.localStorage.getItem(localStorageKeyName) || '[]');
+    this.tagList = JSON.parse(window.localStorage.getItem(localStorageTagKeyName) || '[]');
     return this.tagList;
   },
   saveTags() {
-    window.localStorage.setItem(localStorageKeyName, JSON.stringify(this.tagList));
+    window.localStorage.setItem(localStorageTagKeyName, JSON.stringify(this.tagList));
   },
   createTag(name: string) {
     const id = createId().toString();

@@ -20,9 +20,7 @@
   @Component({
     computed: {
       tagList() {
-        //TODO
-        // return this.$store.fetchTags();
-        return [];
+        return this.$store.state.tagList;
       }
     }
   })
@@ -30,6 +28,9 @@
 
     selectedTags: string[] = [];
 
+    created() {
+      this.$store.commit('fetchTags');
+    }
 
     toggle(tag: string): void {
       const index = this.selectedTags.indexOf(tag);
@@ -48,8 +49,7 @@
     createNewTag(): void {
       const name = window.prompt('请输入标签名');
       if (!name) {return window.alert('标签名不能为空');}
-      //TODO
-      // store.createTag(name);
+      this.$store.commit('createTag', name);
     }
   }
 </script>
