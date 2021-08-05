@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<label class="notes">
+		<label class="formItem">
 			<span class="name">备注</span>
 			<input type="text" placeholder="在这里输入备注" v-model="value"
 			/>
@@ -26,7 +26,7 @@
 </script>
 
 <style lang="scss" scoped>
-	.notes {
+	.formItem {
 		font-size: 14px;
 		background: #f5f5f5;
 		display: flex;

@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<label class="notes">
+		<label class="formItem">
 			<span class="name">{{this.fieldName}}</span>
 			<input type="text" :value="value" @input="onInputValue($event.target.value)" :placeholder="placeHolder">
 		</label>
@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue';
+import Vue from 'vue';
   import {Component, Prop} from 'vue-property-decorator';
 
   @Component
@@ -24,7 +24,7 @@
 </script>
 
 <style lang="scss" scoped>
-	.notes {
+	.formItem {
 		font-size: 14px;
 		display: flex;
 		align-items: center;
