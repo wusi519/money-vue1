@@ -60,6 +60,7 @@
 	.notes-wrapper {
 		background: #f5f5f5;
 		padding: 12px 0;
+
 	}
 
 </style>
