@@ -14,7 +14,6 @@
   import Vue from 'vue';
   import Layout from '@/components/Layout.vue';
   import Tags from '@/components/Money/Tags.vue';
-  import Types from '@/components/Money/Types.vue';
   import NumberPod from '@/components/Money/NumberPad.vue';
   import {Component} from 'vue-property-decorator';
   import FormItem from '@/components/Money/FormItem.vue';
@@ -29,7 +28,7 @@
     createdAt?: Date
   }
   @Component({
-    components: {Tabs, FormItem, NumberPod, Types, Tags, Layout},
+    components: {Tabs, FormItem, NumberPod, Tags, Layout},
   })
   export default class Money extends Vue {
     record: RecordItem = {
