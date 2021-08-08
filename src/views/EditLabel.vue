@@ -7,7 +7,7 @@
 				<span class="rightSpan"></span>
 			</div>
 			<div class="form-wrapper">
-				<FormItem :value="currentTag.name" @update:value="update" field-name="标签名" place-holder="请输入标签名"/>
+				<FormItem class-prefix="editlabel" :value="currentTag.name" @update:value="update" field-name="标签名" place-holder="请输入标签名"/>
 			</div>
 			<div class="button-wrapper">
 				<Button @click="remove">删除标签</Button>
@@ -80,12 +80,16 @@
 			width: 24px;
 		}
 	}
-
-	.form-wrapper {
-		font-size: 16px;
-		margin-top: 8px;
-		background: white;
+::v-deep{
+	.editlabel-formitem{
+		>.name{
+			display: flex;
+			flex-wrap: nowrap;
+			white-space: nowrap;
+		}
 	}
+}
+
 
 
 	.button-wrapper {

@@ -1,7 +1,7 @@
 <template>
 	<Layout>
 		<Tabs :data-source="recordTypeList" :value.sync="type" class-prefix="type"/>
-		<ol>
+		<ol v-if="groupList.length>0">
 			<li v-for="(group,index) in groupList" :key="index">
 				<h3 class="billTitle">{{beautify(group.title)}} <span>￥{{group.total}}</span></h3>
 				<ol>
@@ -13,6 +13,9 @@
 				</ol>
 			</li>
 		</ol>
+		<div v-else class="noBill">
+			目前没有任何记录
+		</div>
 	</Layout>
 </template>
 
@@ -32,7 +35,7 @@
   })
   export default class Chart extends Vue {
     tagString(tags: Tag[]) {
-      return tags.length === 0 ? '无' : tags.join(',');
+      return tags.length === 0 ? '无' : tags.map(t => t.name).join(',');
     }
 
     beautify(string: string) {
@@ -57,12 +60,13 @@
 
     get groupList() {
       const {recordList} = this;
-      if (recordList.length === 0) {return [];}
+
       type HashTableValue = { title: string, items: RecordItem[] }
       type Result = { title: string, total?: number, items: RecordItem[] }[]
       const newList = deepClone(recordList)
         .filter(r => r.type === this.type)
         .sort((a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
+      if (newList.length === 0) {return [];}
       const result: Result = [{title: dayjs(newList[0].createdAt).format('YYYY-M-D'), items: [newList[0]]}];
       for (let i = 1; i < newList.length; i++) {
         const current = newList[i];
@@ -129,5 +133,8 @@
 		margin-right: auto;
 		margin-left: -4px;
 		color: #999;
+	}
+	.noBill{
+		padding:16px;
 	}
 </style>

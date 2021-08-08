@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<label class="formItem">
+		<label class="formItem" :class="{[classPrefix+'-formitem']:classPrefix}">
 			<span class="name">{{this.fieldName}}</span>
 			<input type="text" :value="value" @input="onInputValue($event.target.value)" :placeholder="placeHolder">
 		</label>
@@ -16,6 +16,7 @@ import Vue from 'vue';
     @Prop({required: true}) readonly fieldName!: string;
     @Prop() readonly placeHolder?: string;
     @Prop({default: ''}) readonly value!: string;
+    @Prop(String) classPrefix?: string;
 
     onInputValue(value: string): void {
       this.$emit('update:value', value);
@@ -29,7 +30,6 @@ import Vue from 'vue';
 		display: flex;
 		align-items: center;
 		padding-left: 16px;
-
 
 		> .name {
 			padding-right: 16px;
