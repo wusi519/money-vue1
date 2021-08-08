@@ -1,5 +1,5 @@
 <template>
-	<Layout>
+	<Layout >
 		<div class="tags">
 			<router-link v-for="tag in tags" :key="tag.id" class="tag" :to="`/labels/edit/${tag.id}`">
 				<span>{{tag.name}}</span>

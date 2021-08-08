@@ -25,7 +25,7 @@ const store = new Vuex.Store({
     },
     createRecord(state, record: RecordItem) {
       const deepCloneRecord: RecordItem = deepClone(record);
-      deepCloneRecord.createdAt = new Date().toISOString();
+      deepCloneRecord.createdAt = deepCloneRecord.createdAt || new Date().toISOString();
       state.recordList.push(deepCloneRecord);
       store.commit('saveRecords');
       window.alert('已保存');
@@ -51,11 +51,11 @@ const store = new Vuex.Store({
         state.createTagError = new Error('tag name duplicated');
         return;
       } else if (name === '' || name === null) {
-        window.alert('标签名不能为空');
+        state.createTagError = new Error('tag name is null');
+        return;
       } else {
         state.tagList.push({id, name: name});
         store.commit('saveTags');
-        window.alert('添加成功');
       }
 
     },

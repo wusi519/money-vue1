@@ -17,7 +17,6 @@ const tagStore = {
       window.alert('标签名重复');
       return 'duplicated';
     } else if (name === '' || name === null) {
-      window.alert('标签名不能为空');
       return 'null';
     } else {
       this.tagList.push({id, name: name});

@@ -22,10 +22,13 @@
     select(item: DataSourceItem) {
       this.$emit('update:value', item.value);
     }
-    liClass(item:DataSourceItem){
-      return {selected:item.value===this.value,
-				[this.classPrefix+'-tabs-item']:this.classPrefix}
-		}
+
+    liClass(item: DataSourceItem) {
+      return {
+        selected: item.value === this.value,
+        [this.classPrefix + '-tabs-item']: this.classPrefix
+      };
+    }
   }
 </script>
 
