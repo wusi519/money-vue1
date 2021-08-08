@@ -2,14 +2,12 @@
 	<Layout class-prefix="xxx" :style="{height:h+'px'}">
 		<Tabs :data-source="recordTypeList" :value.sync="record.type"/>
 		<Tags @update:value="record.tags=$event"/>
-
 		<div class="notes-wrapper">
 			<FormItem :value.sync="record.notes" field-name="备注" place-holder="在这里输入备注"
 			/>
 		</div>
 		<div class="createdAt">
-			<FormItem :value.sync="record.createdAt" field-name="日期" type="date" place-holder="在这里输入备注"
-			/>
+			<FormItem :value.sync="record.createdAt" field-name="日期" type="date"/>
 		</div>
 		<NumberPod :value.sync="record.amount" @submit="saveRecord"/>
 	</Layout>
@@ -76,8 +74,7 @@
 
 	.notes-wrapper {
 		background: #f5f5f5;
-		padding: 12px 0;
-
+		margin-bottom: -15px;
 	}
 
 </style>
