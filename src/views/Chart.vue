@@ -1,10 +1,10 @@
 <template>
 	<Layout>
-		<Tabs :data-source="typeList" :value.sync="type" class-prefix="type"/>
+		<Tabs :data-source="recordTypeList" :value.sync="type" class-prefix="type"/>
 		<Tabs :data-source="intervalList" :value.sync="interval" class-prefix="interval"/>
-	<div>
-		
-	</div>
+		<div>
+
+		</div>
 	</Layout>
 </template>
 
@@ -14,22 +14,17 @@
   import Types from '@/components/Money/Types.vue';
   import {Component} from 'vue-property-decorator';
   import Tabs from '@/components/Tabs.vue';
+  import recordTypeList from '@/constants/recordTypeList';
+  import intervalList from '@/constants/intervalList';
 
   @Component({
     components: {Tabs, Types, Layout}
   })
   export default class Chart extends Vue {
     type = '-';
-    interval='day'
-    intervalList=[
-      {text:'按天',value:'day'},
-      {text:'按周',value:'week'},
-      {text:'按月',value:'month'},
-      ]
-    typeList=[
-      {text:'支出',value:'-'},
-      {text:'收入',value:'+'},
-    ]
+    interval = 'day';
+    intervalList = intervalList
+    recordTypeList = recordTypeList
   }
 </script>
 
