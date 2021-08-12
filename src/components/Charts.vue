@@ -1,16 +1,16 @@
 <template>
-	<div class="wrapper" ref="wrapper"></div>
+	<div class="wrapper" ref="wrapper" ></div>
 </template>
 
 <script lang="ts">
   import {Component, Prop, Vue, Watch} from 'vue-property-decorator';
   import echarts, {EChartOption, ECharts} from 'echarts';
 
-
   @Component
   export default class Chart extends Vue {
     @Prop() options?: EChartOption;
     chart?: ECharts;
+
 
     mounted() {
       if (this.options === undefined) {
@@ -29,6 +29,6 @@
 
 <style scoped lang="scss">
 	.wrapper {
-		height: 50vh;
+		height: 400px;
 	}
 </style>

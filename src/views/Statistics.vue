@@ -97,7 +97,7 @@
       return {
         grid: {
           top: '30%',
-          bottom: '50px',
+          bottom: '60%',
           left: 0,
           right: 0,
         },
@@ -121,7 +121,6 @@
           symbol: 'circle',
           symbolSize: 12,
           itemStyle: {borderWidth: 1, color: '#666', borderColor: '#666'},
-          // lineStyle: {width: 10},
           data: values,
           type: 'line'
         }],
