@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import deepClone from '@/lib/deepClone';
 import createId from '@/lib/createId';
 import router from '@/router';
+import dayjs from 'dayjs';
 
 Vue.use(Vuex);
 
@@ -71,8 +72,8 @@ const store = new Vuex.Store({
       }
     },
     removeTag(state, id: string) {
-      const message=window.confirm('确定要删除此标签吗?')
-      if(message){
+      const message = window.confirm('确定要删除此标签吗?');
+      if (message) {
         let index = -1;
         for (let i = 0; i < state.tagList.length; i++) {
           if (state.tagList[i].id === id) {

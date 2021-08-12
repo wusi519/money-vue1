@@ -76,7 +76,7 @@
           key: dateString, value: found ? found.amount : 0
         });
       }
-      console.log(this.recordList);
+
       array.sort((a, b) => {
         if (a.key > b.key) {
           return 1;
@@ -134,13 +134,12 @@
 
     get groupList() {
       const {recordList} = this;
-
       type HashTableValue = { title: string, items: RecordItem[] }
       type Result = { title: string, total?: number, items: RecordItem[] }[]
       const newList = deepClone(recordList)
         .filter(r => r.type === this.type)
         .sort((a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
-      if (newList.length === 0) {return [];}
+      if (newList.length === 0) {return [] as Result;}
       const result: Result = [{title: dayjs(newList[0].createdAt).format('YYYY-M-D'), items: [newList[0]]}];
       for (let i = 1; i < newList.length; i++) {
         const current = newList[i];
