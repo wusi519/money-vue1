@@ -2,9 +2,9 @@ import Vue from 'vue';
 import VueRouter, {RouteConfig} from 'vue-router';
 import Money from '@/views/Money.vue';
 import Labels from '@/views/Labels.vue';
-import Chart from '@/views/Chart.vue';
 import NotFound from '@/views/NotFound.vue';
 import EditLabel from '@/views/EditLabel.vue';
+import Statistics from '@/views/Statistics.vue';
 
 Vue.use(VueRouter);
 
@@ -22,8 +22,8 @@ const routes: Array<RouteConfig> = [
     component: Labels
   },
   {
-    path: '/chart',
-    component: Chart
+    path: '/statistics',
+    component: Statistics
   },
   {
     path: '/labels/edit/:id',

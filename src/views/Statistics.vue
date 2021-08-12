@@ -1,6 +1,9 @@
 <template>
 	<Layout>
 		<Tabs :data-source="recordTypeList" :value.sync="type" class-prefix="type"/>
+		<div class="chart-wrapper" ref="chartWrapper">
+			<Charts class="chart" :options="x"/>
+		</div>
 		<ol v-if="groupList.length>0">
 			<li v-for="(group,index) in groupList" :key="index">
 				<h3 class="billTitle">{{beautify(group.title)}} <span>￥{{group.total}}</span></h3>
@@ -16,6 +19,7 @@
 		<div v-else class="noBill">
 			目前没有任何记录
 		</div>
+
 	</Layout>
 </template>
 
@@ -25,17 +29,23 @@
   import {Component} from 'vue-property-decorator';
   import Tabs from '@/components/Tabs.vue';
   import recordTypeList from '@/constants/recordTypeList';
-  import intervalList from '@/constants/intervalList';
   import dayjs from 'dayjs';
   import deepClone from '@/lib/deepClone';
-
+  import Charts from '@/components/Charts.vue';
+  import _ from 'lodash';
+  import day from 'dayjs';
 
   @Component({
-    components: {Tabs, Layout}
+    components: {Charts, Tabs, Layout}
   })
-  export default class Chart extends Vue {
+  export default class Statistics extends Vue {
     tagString(tags: Tag[]) {
       return tags.length === 0 ? '无' : tags.map(t => t.name).join(',');
+    }
+
+    mounted() {
+      const div = (this.$refs.chartWrapper as HTMLDivElement);
+      div.scrollLeft = div.scrollWidth;
     }
 
     beautify(string: string) {
@@ -52,6 +62,56 @@
       } else {
         return day.format('YYYY年M月D日');
       }
+    }
+
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    get x() {
+      const today = new Date();
+      const array = [];
+      for (let i = 0; i <= 29; i++) {
+        const date=day(today)
+					.subtract(i,'day').format('YYYY-M-D')
+        array.push({date: date, value: _.find(this.recordList,
+						{createdAt:date})?.amount
+        })
+      }
+      console.log(this.recordList.map(r => _.pick(r, ['createdAt', 'amount'])));
+      return {
+        grid: {
+          left: 0,
+          right: 0,
+        },
+        xAxis: {
+          axisTick: {alignWithLabel: true, show: false},
+          type: 'category',
+          data: ['1', '2', '3', '4', '5', '6', '7',
+            '8', '9', '10', '11', '12', '13', '14',
+            '15', '16', '17', '18', '19', '20', '21',
+            '22', '23', '24', '25', '26', '27', '28',
+            '29', '30',]
+        },
+        yAxis: {
+          type: 'value',
+          show: false,
+        },
+        series: [{
+          symbol: 'circle',
+          symbolSize: 15,
+          color: '#666',
+          data: [150, 230, 224, 218, 135, 147, 260,
+            150, 230, 224, 218, 135, 147, 260,
+            150, 230, 224, 218, 135, 147, 260,
+            150, 230, 224, 218, 135, 147, 260,
+            150, 230,],
+          type: 'line'
+        }],
+        tooltip: {
+          show: true,
+          triggerOn: 'click',
+          position: 'top',
+          formatter: '{c}'
+        }
+      };
     }
 
     get recordList() {
@@ -86,8 +146,6 @@
     }
 
     type = '-';
-    interval = 'day';
-    intervalList = intervalList;
     recordTypeList = recordTypeList;
   }
 </script>
@@ -134,7 +192,20 @@
 		margin-left: -4px;
 		color: #999;
 	}
-	.noBill{
-		padding:16px;
+
+	.noBill {
+		padding: 16px;
+	}
+
+	.chart {
+		width: 430%;
+
+		&-wrapper {
+			overflow: auto;
+
+			&::-webkit-scrollbar {
+				display: none;
+			}
+		}
 	}
 </style>

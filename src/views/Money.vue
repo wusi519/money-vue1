@@ -35,7 +35,7 @@
   })
   export default class Money extends Vue {
     record: RecordItem = {
-      tags: [], notes: '', type: '-', amount: 0, createdAt: new Date().toISOString()
+      tags: [], notes: '', type: '-', amount: 0, createdAt: new Date().toISOString() as unknown as Date
     };
 
     h = document.body.clientHeight;

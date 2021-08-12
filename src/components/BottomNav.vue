@@ -8,7 +8,7 @@
 			<Icon name="money"/>
 			<span>记账</span>
 		</router-link>
-		<router-link to="/chart" class="item" active-class="selected">
+		<router-link to="/statistics" class="item" active-class="selected">
 			<Icon name="chart"/>
 			<span>图表</span>
 		</router-link>

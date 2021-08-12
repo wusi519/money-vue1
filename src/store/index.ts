@@ -45,19 +45,14 @@ const store = new Vuex.Store({
     },
     createTag(state, name: string) {
       state.createTagError = null;
-      const id = createId().toString();
       const names = state.tagList.map(item => item.name);
-      if (name && names.indexOf(name) >= 0) {
+      if (names.indexOf(name) >= 0) {
         state.createTagError = new Error('tag name duplicated');
         return;
-      } else if (name === '' || name === null) {
-        state.createTagError = new Error('tag name is null');
-        return;
-      } else {
-        state.tagList.push({id, name: name});
-        store.commit('saveTags');
       }
-
+      const id = createId().toString();
+      state.tagList.push({id, name: name});
+      store.commit('saveTags');
     },
     saveTags(state) {
       window.localStorage.setItem(localStorageTagKeyName, JSON.stringify(state.tagList));
@@ -76,23 +71,24 @@ const store = new Vuex.Store({
       }
     },
     removeTag(state, id: string) {
-      let index = -1;
-      for (let i = 0; i < state.tagList.length; i++) {
-        if (state.tagList[i].id === id) {
-          index = i;
-          break;
+      const message=window.confirm('确定要删除此标签吗?')
+      if(message){
+        let index = -1;
+        for (let i = 0; i < state.tagList.length; i++) {
+          if (state.tagList[i].id === id) {
+            index = i;
+            break;
+          }
+        }
+        if (index >= 0) {
+          state.tagList.splice(index, 1);
+          store.commit('saveTags');
+          router.back();
+        } else {
+          window.alert('删除失败');
         }
       }
-      if (index >= 0) {
-        state.tagList.splice(index, 1);
-        store.commit('saveTags');
-        router.back();
-      } else {
-        window.alert('删除失败');
-      }
 
-
-      return true;
     },
   },
   actions: {},
