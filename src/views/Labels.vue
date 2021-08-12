@@ -1,5 +1,10 @@
 <template>
-	<Layout >
+	<Layout>
+		<div class="labelTopnav">
+			<Icon name="cheering"/>
+			<span class="title">简单记账</span>
+			<span></span>
+		</div>
 		<div class="tags">
 			<router-link v-for="tag in tags" :key="tag.id" class="tag" :to="`/labels/edit/${tag.id}`">
 				<span>{{tag.name}}</span>
@@ -22,9 +27,10 @@
     components: {Button},
   })
   export default class Label extends mixins(TagHelper) {
-   get tags() {
+    get tags() {
       return this.$store.state.tagList;
     }
+
     beforeCreate() {
       this.$store.commit('fetchTags');
     }
@@ -64,6 +70,26 @@
 		&-wrapper {
 			padding-top: 44px;
 			text-align: center;
+		}
+	}
+
+	.labelTopnav {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding-left: 16px;
+		background: #f9d957;
+		height: 60px;
+
+		> .icon {
+			height: 48px;
+			width: 48px;
+		}
+
+		> .title {
+			margin-left: -17%;
+			font-weight: bold;
+			font-size:18px;
 		}
 	}
 </style>

@@ -34,7 +34,7 @@
 
 <style lang="scss" scoped>
 	.tabs {
-		background: #c4c4c4;
+		background: #f8d02d;
 		display: flex;
 		font-size: 24px;
 
@@ -51,7 +51,7 @@
 				position: absolute;
 				width: 100%;
 				height: 4px;
-				background: #333;
+				background: #2c3e50;
 				bottom: 0;
 				left: 0;
 			}

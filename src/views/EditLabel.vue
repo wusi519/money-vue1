@@ -7,7 +7,8 @@
 				<span class="rightSpan"></span>
 			</div>
 			<div class="form-wrapper">
-				<FormItem class-prefix="editlabel" :value="currentTag.name" @update:value="update" field-name="标签名" place-holder="请输入标签名"/>
+				<FormItem class-prefix="editlabel" :value="currentTag.name" @update:value="update" field-name="标签名"
+									place-holder="请输入标签名"/>
 			</div>
 			<div class="button-wrapper">
 				<Button @click="remove">删除标签</Button>
@@ -63,7 +64,7 @@
 	}
 
 	.navBar {
-		background: white;
+		background: #f8d02d;
 		padding: 12px 16px;
 		font-size: 16px;
 		display: flex;
@@ -80,21 +81,30 @@
 			width: 24px;
 		}
 	}
-::v-deep{
-	.editlabel-formitem{
-		>.name{
-			display: flex;
-			flex-wrap: nowrap;
-			white-space: nowrap;
+
+	::v-deep {
+		.editlabel-formitem {
+			margin-top: 10px;
+			background: #fefaea;
+
+			> .name {
+				display: flex;
+				flex-wrap: nowrap;
+				white-space: nowrap;
+			}
 		}
 	}
-}
-
-
 
 	.button-wrapper {
 		text-align: center;
 		padding: 16px;
 		margin-top: 44-16px;
+
+		::v-deep {
+			.button {
+				background: #fef0f0;
+				color: #f56c81;
+			}
+		}
 	}
 </style>

@@ -69,11 +69,11 @@
 				justify-content: center;
 				width: 48px;
 				height: 48px;
-				background: green;
+				background: #e5e5e5;
 				border-radius: 50%;
 				margin-bottom: 4px;
 				&.selected {
-					background: red;
+					background: #f8d02d;
 					color: white;
 				}
 			}

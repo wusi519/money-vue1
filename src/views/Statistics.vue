@@ -1,16 +1,12 @@
 <template>
 	<Layout>
 		<Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
-<!--		<div class="chart-wrapper" ref="chartWrapper">-->
-<!--			<Chart class="chart" :options="chartOptions"/>-->
-<!--		</div>-->
-		<div>
-			<button>图表</button>
-			<button>明细</button>
+		<div class="chart-wrapper" ref="chartWrapper">
+			<Chart class="chart" :options="chartOptions"/>
 		</div>
 		<ol v-if="groupedList.length>0">
 			<li v-for="(group, index) in groupedList" :key="index">
-				<h3 class="title">{{beautify(group.title)}} <span>￥{{group.total}}</span></h3>
+				<h3 class="statistics-title">{{beautify(group.title)}} <span>￥{{group.total}}</span></h3>
 				<ol>
 					<li v-for="item in group.items" :key="item.id"
 							class="record"
@@ -37,18 +33,22 @@
   import Chart from '@/components/Charts.vue';
   import _ from 'lodash';
   import day from 'dayjs';
+  import Layout from '@/components/Layout.vue';
+
   @Component({
-    components: {Tabs, Chart},
+    components: {Tabs, Chart, Layout}
   })
   export default class Statistics extends Vue {
     tagString(tags: Tag[]) {
       return tags.length === 0 ? '无' :
         tags.map(t => t.name).join('，');
     }
+
     mounted() {
       const div = (this.$refs.chartWrapper as HTMLDivElement);
       div.scrollLeft = div.scrollWidth;
     }
+
     beautify(string: string) {
       const day = dayjs(string);
       const now = dayjs();
@@ -64,6 +64,7 @@
         return day.format('YYYY年M月D日');
       }
     }
+
     get keyValueList() {
       const today = new Date();
       const array = [];
@@ -89,20 +90,21 @@
       });
       return array;
     }
+
     get chartOptions() {
       const keys = this.keyValueList.map(item => item.key);
       const values = this.keyValueList.map(item => item.value);
       return {
         grid: {
-          top:'30%',
-          bottom:'50px',
+          top: '30%',
+          bottom: '50px',
           left: 0,
           right: 0,
         },
         xAxis: {
           type: 'category',
           data: keys,
-          axisTick: {alignWithLabel: true,show:false},
+          axisTick: {alignWithLabel: true, show: false},
           axisLine: {lineStyle: {color: '#666'}},
           axisLabel: {
             formatter: function (value: string) {
@@ -131,9 +133,11 @@
         }
       };
     }
+
     get recordList() {
       return (this.$store.state as RootState).recordList;
     }
+
     get groupedList() {
       const {recordList} = this;
       const newList = clone(recordList)
@@ -158,9 +162,11 @@
       });
       return result;
     }
+
     beforeCreate() {
       this.$store.commit('fetchRecords');
     }
+
     type = '-';
     recordTypeList = recordTypeList;
   }
@@ -171,47 +177,60 @@
 		max-width: 100%;
 		height: 400px;
 	}
+
 	.noResult {
 		padding: 16px;
 		text-align: center;
 	}
+
 	::v-deep {
 		.type-tabs-item {
-			background: #C4C4C4;
+			background:white ;
+
 			&.selected {
-				background: white;
+				background: #f8d02d;
+
 				&::after {
 					display: none;
 				}
 			}
 		}
+
 		.interval-tabs-item {
 			height: 48px;
 		}
 	}
+
 	%item {
 		padding: 8px 16px;
 		line-height: 24px;
 		display: flex;
 		justify-content: space-between;
 		align-content: center;
+		background: #fbe8ab;
 	}
-	.title {
+
+	.statistics-title {
 		@extend %item;
 	}
+
 	.record {
 		background: white;
 		@extend %item;
 	}
+
 	.notes {
 		margin-right: auto;
 		margin-left: 16px;
 		color: #999;
 	}
+
 	.chart {
 		width: 430%;
+
 		&-wrapper {
 			overflow: auto;
+
 			&::-webkit-scrollbar {
 				display: none;
 			}

@@ -1,9 +1,5 @@
 <template>
 	<nav>
-		<router-link to="/labels" class="item" active-class="selected">
-			<Icon name="detail"/>
-			<span>明细</span>
-		</router-link>
 		<router-link to="/money" class="item" active-class="selected">
 			<Icon name="money"/>
 			<span>记账</span>
@@ -12,6 +8,12 @@
 			<Icon name="chart"/>
 			<span>图表</span>
 		</router-link>
+		<router-link to="/labels" class="item" active-class="selected">
+			<Icon name="icon"/>
+			<span>标签</span>
+		</router-link>
+
+
 	</nav>
 </template>
 
@@ -25,8 +27,9 @@
   };
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 	@import "../assets/style/Helper";
+
 	nav {
 		display: flex;
 		flex-direction: row;
@@ -40,16 +43,19 @@
 			justify-content: center;
 			align-items: center;
 			flex-direction: column;
-			>span{
-				font-size:1.2em;
+
+			> span {
+				font-size: 1.2em;
 			}
+
 			.icon {
 				width: 32px;
 				height: 32px;
 			}
 		}
-		>.item.selected{
-			color:$color-highlight;
+
+		> .item.selected {
+			color: $color-highlight;
 		}
 	}
 </style>

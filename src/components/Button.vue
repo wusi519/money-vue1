@@ -1,6 +1,7 @@
 <template>
 	<button class="button"
-					@click="$emit('click',$event)">
+					@click="$emit('click',$event)"
+	>
 		<slot/>
 	</button>
 </template>
@@ -16,9 +17,9 @@
 
 <style lang="scss" scoped>
 	.button {
-		background: #767676;
+		background: #f9d957;
 		border: none;
-		color: white;
+		color: #000000;
 		border-radius: 4px;
 		padding: 8px 17px;
 	}
