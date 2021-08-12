@@ -2,7 +2,7 @@
 	<Layout>
 		<Tabs :data-source="recordTypeList" :value.sync="type" class-prefix="type"/>
 		<div class="chart-wrapper" ref="chartWrapper">
-			<Charts class="chart" :options="x"/>
+			<Charts class="chart" :options="chartOptions"/>
 		</div>
 		<ol v-if="groupList.length>0">
 			<li v-for="(group,index) in groupList" :key="index">
@@ -64,18 +64,34 @@
       }
     }
 
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    get x() {
+    get keyValueList() {
       const today = new Date();
       const array = [];
       for (let i = 0; i <= 29; i++) {
-        const date=day(today)
-					.subtract(i,'day').format('YYYY-M-D')
-        array.push({date: date, value: _.find(this.recordList,
-						{createdAt:date})?.amount
-        })
+        const dateString = day(today)
+          .subtract(i, 'day').format('YYYY-M-D');
+        const found = _.find(this.recordList,
+          {createdAt: dateString});
+        array.push({
+          key: dateString, value: found ? found.amount : 0
+        });
       }
-      console.log(this.recordList.map(r => _.pick(r, ['createdAt', 'amount'])));
+      array.sort((a, b) => {
+        if (a.key > b.key) {
+          return 1;
+        } else if (a.key === b.key) {
+          return 0;
+        } else {
+          return -1;
+        }
+      });
+      return array;
+    }
+
+    get chartOptions() {
+      const keys = this.keyValueList.map(item => item.key);
+      const values = this.keyValueList.map(item => item.value);
+
       return {
         grid: {
           left: 0,
@@ -83,12 +99,13 @@
         },
         xAxis: {
           axisTick: {alignWithLabel: true, show: false},
+          axisLabel: {
+            formatter: function (value: string) {
+              return value.substr(5);
+            }
+          },
           type: 'category',
-          data: ['1', '2', '3', '4', '5', '6', '7',
-            '8', '9', '10', '11', '12', '13', '14',
-            '15', '16', '17', '18', '19', '20', '21',
-            '22', '23', '24', '25', '26', '27', '28',
-            '29', '30',]
+          data: keys,
         },
         yAxis: {
           type: 'value',
@@ -98,11 +115,7 @@
           symbol: 'circle',
           symbolSize: 15,
           color: '#666',
-          data: [150, 230, 224, 218, 135, 147, 260,
-            150, 230, 224, 218, 135, 147, 260,
-            150, 230, 224, 218, 135, 147, 260,
-            150, 230, 224, 218, 135, 147, 260,
-            150, 230,],
+          data: values,
           type: 'line'
         }],
         tooltip: {
