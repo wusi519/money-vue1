@@ -1,53 +1,54 @@
 <template>
 	<Layout>
-		<Tabs :data-source="recordTypeList" :value.sync="type" class-prefix="type"/>
-		<div class="chart-wrapper" ref="chartWrapper">
-			<Charts class="chart" :options="chartOptions"/>
+		<Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
+<!--		<div class="chart-wrapper" ref="chartWrapper">-->
+<!--			<Chart class="chart" :options="chartOptions"/>-->
+<!--		</div>-->
+		<div>
+			<button>图表</button>
+			<button>明细</button>
 		</div>
-		<ol v-if="groupList.length>0">
-			<li v-for="(group,index) in groupList" :key="index">
-				<h3 class="billTitle">{{beautify(group.title)}} <span>￥{{group.total}}</span></h3>
+		<ol v-if="groupedList.length>0">
+			<li v-for="(group, index) in groupedList" :key="index">
+				<h3 class="title">{{beautify(group.title)}} <span>￥{{group.total}}</span></h3>
 				<ol>
-					<li v-for="item in group.items" :key="item.id" class="billRecord">
+					<li v-for="item in group.items" :key="item.id"
+							class="record"
+					>
 						<span>{{tagString(item.tags)}}</span>
-						<span class="billNotes">{{item.notes}}</span>
-						<span>￥{{item.amount}}</span>
+						<span class="notes">{{item.notes}}</span>
+						<span>￥{{item.amount}} </span>
 					</li>
 				</ol>
 			</li>
 		</ol>
-		<div v-else class="noBill">
-			目前没有任何记录
+		<div v-else class="noResult">
+			目前没有相关记录
 		</div>
-
 	</Layout>
 </template>
-
 <script lang="ts">
   import Vue from 'vue';
-  import Layout from '@/components/Layout.vue';
   import {Component} from 'vue-property-decorator';
   import Tabs from '@/components/Tabs.vue';
   import recordTypeList from '@/constants/recordTypeList';
   import dayjs from 'dayjs';
-  import deepClone from '@/lib/deepClone';
-  import Charts from '@/components/Charts.vue';
+  import clone from '@/lib/deepClone';
+  import Chart from '@/components/Charts.vue';
   import _ from 'lodash';
   import day from 'dayjs';
-
   @Component({
-    components: {Charts, Tabs, Layout}
+    components: {Tabs, Chart},
   })
   export default class Statistics extends Vue {
     tagString(tags: Tag[]) {
-      return tags.length === 0 ? '无' : tags.map(t => t.name).join(',');
+      return tags.length === 0 ? '无' :
+        tags.map(t => t.name).join('，');
     }
-
     mounted() {
       const div = (this.$refs.chartWrapper as HTMLDivElement);
       div.scrollLeft = div.scrollWidth;
     }
-
     beautify(string: string) {
       const day = dayjs(string);
       const now = dayjs();
@@ -63,20 +64,20 @@
         return day.format('YYYY年M月D日');
       }
     }
-
     get keyValueList() {
       const today = new Date();
       const array = [];
       for (let i = 0; i <= 29; i++) {
+        // this.recordList = [{date:7.3, value:100}, {date:7.2, value:200}]
         const dateString = day(today)
-          .subtract(i, 'day').format('YYYY-M-D');
-        const found = _.find(this.recordList,
-          {createdAt: dateString});
+          .subtract(i, 'day').format('YYYY-MM-DD');
+        const found = _.find(this.groupedList, {
+          title: dateString
+        });
         array.push({
-          key: dateString, value: found ? found.amount : 0
+          key: dateString, value: found ? found.total : 0
         });
       }
-
       array.sort((a, b) => {
         if (a.key > b.key) {
           return 1;
@@ -88,134 +89,129 @@
       });
       return array;
     }
-
     get chartOptions() {
       const keys = this.keyValueList.map(item => item.key);
       const values = this.keyValueList.map(item => item.value);
-
       return {
         grid: {
+          top:'30%',
+          bottom:'50px',
           left: 0,
           right: 0,
         },
         xAxis: {
-          axisTick: {alignWithLabel: true, show: false},
+          type: 'category',
+          data: keys,
+          axisTick: {alignWithLabel: true,show:false},
+          axisLine: {lineStyle: {color: '#666'}},
           axisLabel: {
             formatter: function (value: string) {
               return value.substr(5);
             }
           },
-          type: 'category',
-          data: keys,
+
         },
         yAxis: {
           type: 'value',
-          show: false,
+          show: false
         },
         series: [{
           symbol: 'circle',
-          symbolSize: 15,
-          color: '#666',
+          symbolSize: 12,
+          itemStyle: {borderWidth: 1, color: '#666', borderColor: '#666'},
+          // lineStyle: {width: 10},
           data: values,
           type: 'line'
         }],
         tooltip: {
-          show: true,
-          triggerOn: 'click',
+          show: true, triggerOn: 'click',
+
           position: 'top',
           formatter: '{c}'
         }
       };
     }
-
     get recordList() {
       return (this.$store.state as RootState).recordList;
     }
-
-    get groupList() {
+    get groupedList() {
       const {recordList} = this;
-      type HashTableValue = { title: string, items: RecordItem[] }
-      type Result = { title: string, total?: number, items: RecordItem[] }[]
-      const newList = deepClone(recordList)
+      const newList = clone(recordList)
         .filter(r => r.type === this.type)
         .sort((a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
-      if (newList.length === 0) {return [] as Result;}
-      const result: Result = [{title: dayjs(newList[0].createdAt).format('YYYY-M-D'), items: [newList[0]]}];
+      if (newList.length === 0) {return [];}
+      type Result = { title: string, total?: number, items: RecordItem[] }[]
+      const result: Result = [{title: dayjs(newList[0].createdAt).format('YYYY-MM-DD'), items: [newList[0]]}];
       for (let i = 1; i < newList.length; i++) {
         const current = newList[i];
         const last = result[result.length - 1];
         if (dayjs(last.title).isSame(dayjs(current.createdAt), 'day')) {
           last.items.push(current);
         } else {
-          result.push({title: dayjs(current.createdAt).format('YYYY-M-D'), items: [current]});
+          result.push({title: dayjs(current.createdAt).format('YYYY-MM-DD'), items: [current]});
         }
       }
-      result.map(group => {group.total = group.items.reduce((sum, item) => sum + item.amount, 0);});
+      result.map(group => {
+        group.total = group.items.reduce((sum, item) => {
+          return sum + item.amount;
+        }, 0);
+      });
       return result;
     }
-
     beforeCreate() {
       this.$store.commit('fetchRecords');
     }
-
     type = '-';
     recordTypeList = recordTypeList;
   }
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
+	.echarts {
+		max-width: 100%;
+		height: 400px;
+	}
+	.noResult {
+		padding: 16px;
+		text-align: center;
+	}
 	::v-deep {
 		.type-tabs-item {
-			background: #c4c4c4;
-
+			background: #C4C4C4;
 			&.selected {
 				background: white;
-
 				&::after {
 					display: none;
 				}
 			}
 		}
-
 		.interval-tabs-item {
 			height: 48px;
 		}
 	}
-
 	%item {
 		padding: 8px 16px;
 		line-height: 24px;
 		display: flex;
 		justify-content: space-between;
-		align-items: center;
+		align-content: center;
 	}
-
-	.billTitle {
+	.title {
 		@extend %item;
 	}
-
-	.billRecord {
-		@extend %item;
+	.record {
 		background: white;
-	}
-
-	.billNotes {
 		@extend %item;
+	}
+	.notes {
 		margin-right: auto;
-		margin-left: -4px;
+		margin-left: 16px;
 		color: #999;
 	}
-
-	.noBill {
-		padding: 16px;
-	}
-
 	.chart {
 		width: 430%;
-
 		&-wrapper {
 			overflow: auto;
-
 			&::-webkit-scrollbar {
 				display: none;
 			}
