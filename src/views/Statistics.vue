@@ -1,10 +1,10 @@
 <template>
-	<Layout>
+	<Layout class="statistics-wrapper">
 		<Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
 		<div class="chart-wrapper" ref="chartWrapper">
 			<Chart class="chart" :options="chartOptions"/>
 		</div>
-		<ol v-if="groupedList.length>0">
+		<ol v-if="groupedList.length>0" class="statistics-list">
 			<li v-for="(group, index) in groupedList" :key="index">
 				<h3 class="statistics-title">{{beautify(group.title)}} <span>￥{{group.total}}</span></h3>
 				<ol>
@@ -97,7 +97,7 @@
       return {
         grid: {
           top: '30%',
-          bottom: '60%',
+          bottom: '50%',
           left: 0,
           right: 0,
         },
@@ -172,9 +172,19 @@
 </script>
 
 <style scoped lang="scss">
+	.statistics-wrapper {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.statistics-list {
+		height: 40vh;
+	}
+
 	.echarts {
 		max-width: 100%;
 		height: 400px;
+		flex-grow: 1;
 	}
 
 	.noResult {
@@ -184,7 +194,7 @@
 
 	::v-deep {
 		.type-tabs-item {
-			background:white ;
+			background: white;
 
 			&.selected {
 				background: #f8d02d;
