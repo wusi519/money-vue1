@@ -23,19 +23,13 @@
   import recordTypeList from '@/constants/recordTypeList';
   import Tabs from '@/components/Tabs.vue';
 
-  type RecordItem = {
-    tags: string[];
-    notes: string;
-    type: string;
-    amount: number;
-    createdAt?: Date
-  }
+
   @Component({
     components: {Tabs, FormItem, NumberPod, Tags, Layout},
   })
   export default class Money extends Vue {
     record: RecordItem = {
-      tags: [], notes: '', type: '-', amount: 0, createdAt: new Date().toISOString() as unknown as Date
+      tags: [], notes: '', type: '-', amount: 0, createdAt: new Date().toISOString()
     };
 
     h = document.body.clientHeight;

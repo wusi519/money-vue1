@@ -76,6 +76,7 @@
           key: dateString, value: found ? found.amount : 0
         });
       }
+      console.log(this.recordList);
       array.sort((a, b) => {
         if (a.key > b.key) {
           return 1;
