@@ -1,5 +1,5 @@
 <template>
-	<Layout class-prefix="xxx" :style="{height:h+'px'}">
+	<Layout class-prefix="xxx" :style="{height:h+'px'}" class="layout-wrapper">
 		<Tabs :data-source="recordTypeList" :value.sync="record.type"/>
 		<Tags @update:value="record.tags=$event"/>
 		<div class="notes-wrapper">
@@ -33,6 +33,7 @@
     };
 
     h = document.body.clientHeight;
+    w = document.body.clientWidth;
 
     get recordList() {
       return this.$store.state.recordList;
@@ -70,5 +71,6 @@
 		background: #f5f5f5;
 		margin-bottom: -15px;
 	}
+
 
 </style>

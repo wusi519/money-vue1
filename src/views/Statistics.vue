@@ -11,7 +11,7 @@
 					<li v-for="item in group.items" :key="item.id"
 							class="record"
 					>
-						<span>{{tagString(item.tags)}}</span>
+						<span class="statistics-tags">{{tagString(item.tags)}}</span>
 						<span class="notes">{{item.notes}}</span>
 						<span>￥{{item.amount}} </span>
 					</li>
@@ -228,11 +228,16 @@
 	.record {
 		background: white;
 		@extend %item;
+
+		> .statistics-tags {
+			border:1px solid red;
+			white-space: nowrap;
+		}
 	}
 
 	.notes {
 		margin-right: auto;
-		margin-left: 16px;
+		margin-left: 10px;
 		color: #999;
 	}
 

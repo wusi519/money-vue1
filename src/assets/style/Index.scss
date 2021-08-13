@@ -5,6 +5,7 @@
   padding: 0;
   box-sizing: border-box
 }
+
 #app {
   line-height: 1.5;
   color: #333;
@@ -17,7 +18,15 @@
 
 body {
   line-height: 1.5;
-  &::-webkit-scrollbar{
+  min-width: 375px;
+  @media screen and (min-width:320px) and (max-width:374px){
+    min-width: 320px;
+  }
+  @media screen and (min-width:375px) and (max-width:413px){
+    min-width: 375px;
+  }
+
+  &::-webkit-scrollbar {
     display: none;
   }
 }
@@ -38,13 +47,16 @@ a {
 ul, ol {
   list-style: none;
 }
-button,input{
-  font:inherit;
+
+button, input {
+  font: inherit;
 }
-:focus{
+
+:focus {
   outline: none;
 }
-h1,h2,h3,h4,h5,h6{
+
+h1, h2, h3, h4, h5, h6 {
   font-weight: normal;
 }
 
