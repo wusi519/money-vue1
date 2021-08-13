@@ -34,11 +34,13 @@
   import _ from 'lodash';
   import day from 'dayjs';
   import Layout from '@/components/Layout.vue';
+  import NP from 'number-precision';
 
   @Component({
     components: {Tabs, Chart, Layout}
   })
   export default class Statistics extends Vue {
+
     tagString(tags: Tag[]) {
       return tags.length === 0 ? '无' :
         tags.map(t => t.name).join('，');
@@ -69,7 +71,6 @@
       const today = new Date();
       const array = [];
       for (let i = 0; i <= 29; i++) {
-        // this.recordList = [{date:7.3, value:100}, {date:7.2, value:200}]
         const dateString = day(today)
           .subtract(i, 'day').format('YYYY-MM-DD');
         const found = _.find(this.groupedList, {
@@ -156,7 +157,8 @@
       }
       result.map(group => {
         group.total = group.items.reduce((sum, item) => {
-          return sum + item.amount;
+          const x = NP.plus(sum, item.amount);
+          return x;
         }, 0);
       });
       return result;
