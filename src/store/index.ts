@@ -52,7 +52,12 @@ const store = new Vuex.Store({
         return;
       }
       const id = createId().toString();
-      state.tagList.push({id, name: name});
+      if(name.length>=4){
+        window.alert('标签最多只能4个字')
+        return;
+      }else{
+        state.tagList.push({id, name: name});
+      }
       store.commit('saveTags');
     },
     saveTags(state) {

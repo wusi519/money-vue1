@@ -230,7 +230,6 @@
 		@extend %item;
 
 		> .statistics-tags {
-			border:1px solid red;
 			white-space: nowrap;
 		}
 	}
@@ -240,7 +239,6 @@
 		margin-left: 10px;
 		color: #999;
 	}
-
 	.chart {
 		width: 430%;
 
